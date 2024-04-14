@@ -1,6 +1,6 @@
 const header = document.getElementById("js--header")
 const dates = document.getElementById("js--dates");
-const buttons = document.querySelectorAll("#prev, #next");
+const buttons = document.querySelectorAll("#js--prev, #js--next");
 
 const months = [
     "January",
