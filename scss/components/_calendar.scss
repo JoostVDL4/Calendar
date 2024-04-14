@@ -1,30 +1,40 @@
+@use "../abstracts/animations";
 .calendar {
     margin: auto;
-    width: 38rem;
-    height:40rem;
+    width: 40rem;
+    height:45rem;
     background: #FFF;
     padding: 1rem;
     border-radius:1rem;
     box-shadow: 0 0 1rem rgba(0,0,0,0.2);
+    animation-name: transition;
+    animation-duration: 4s;
+  
 }
 
 .calendar header {
     display:flex;
     align-items: center;
     justify-content: space-between;
+
+   
 }
 
 .calendar ul {
     list-style:none;
     display:flex;
     flex-wrap: wrap;
+    animation-name: transition;
+    animation-duration: 1s;
 }
 
 .calendar ul li {
-    width: 3rem;
+    width: 5rem;
     margin-top: 2.5rem;
     position: relative;
     z-index: 2;
+    animation-name: transition;
+    animation-duration: 1s;
 }
 
 .prev, .next{
@@ -54,7 +64,7 @@
 }
 
 .prev::before{
-    transform: translate(-50%,-50%) rotate(135deg);
+    transform: translate(-50%,-50%) rotate(225deg);
 }
 
 .prev:hover::before, .next:hover::before{
@@ -71,15 +81,15 @@
 
 .dates li.today::before {
     content: '';
-    width:2rem;
-    height:2rem;
+    width:4rem;
+    height:4rem;
     position:absolute;
     top:50%;
-    left:50%;
+    left:15%;
     transform: translate(-50%, -50%);
     background: black;
     border-radius: 50%;
-    z-index: -1
+    z-index: -1;
 }
 
 .dates li.inactive{

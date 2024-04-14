@@ -1,77 +1,65 @@
-const header = document.getElementById("js--header")
-const dates = document.getElementById("js--dates");
-const buttons = document.querySelectorAll("#js--prev, #js--next");
+class Calendar {
+  constructor(headerId, datesId, prevBtnId, nextBtnId) {
+      this.header = document.getElementById(headerId);
+      this.dates = document.getElementById(datesId);
+      this.prevBtn = document.getElementById(prevBtnId);
+      this.nextBtn = document.getElementById(nextBtnId);
 
-const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
-];
+      this.months = [
+          "January", "February", "March", "April",
+          "May", "June", "July", "August",
+          "September", "October", "November", "December"
+      ];
 
-let date = new Date();
-let month = date.getMonth();
-let year = date.getFullYear();
+      this.date = new Date();
+      this.month = this.date.getMonth();
+      this.year = this.date.getFullYear();
 
+      this.renderCalendar();
 
-function renderCalendar() {
-    const start = new Date(year, month, 1).getDay();
-    const endDate = new Date(year, month + 1, 0).getDate();
-    const end = new Date(year, month, endDate).getDay();
-    const endDatePrev = new Date(year, month, 0).getDate();
-  
-    let datesHtml = "";
-  
-    for (let i = start; i > 0; i--) {
-      datesHtml += `<li class="inactive">${endDatePrev - i + 1}</li>`;
-    }
-  
-    for (let i = 1; i <= endDate; i++) {
-      let className =
-        i === date.getDate() &&
-        month === new Date().getMonth() &&
-        year === new Date().getFullYear()
-          ? ' class="today"'
-          : "";
-      datesHtml += `<li${className}>${i}</li>`;
-    }
-  
-    for (let i = end; i < 6; i++) {
-      datesHtml += `<li class="inactive">${i - end + 1}</li>`;
-    }
-  
-    dates.innerHTML = datesHtml;
-    header.textContent = `${months[month]} ${year}`;
+      this.prevBtn.addEventListener("click", this.prevMonth.bind(this));
+      this.nextBtn.addEventListener("click", this.nextMonth.bind(this));
   }
-  
-  buttons.forEach((nav) => {
-    nav.addEventListener("click", (e) => {
-      const btnId = e.target.id;
-  
-      if (btnId === "prev" && month === 0) {
-        year--;
-        month = 11;
-      } else if (btnId === "next" && month === 11) {
-        year++;
-        month = 0;
-      } else {
-        month = btnId === "next" ? month + 1 : month - 1;
+
+  renderCalendar() {
+      const start = new Date(this.year, this.month, 1).getDay();
+      const endDate = new Date(this.year, this.month + 1, 0).getDate();
+      const end = new Date(this.year, this.month, endDate).getDay();
+      const endDatePrev = new Date(this.year, this.month, 0).getDate();
+
+      let datesHtml = "";
+
+      for (let i = start; i > 0; i--) {
+          datesHtml += `<li class="inactive">${endDatePrev - i + 1}</li>`;
       }
-  
-      date = new Date(year, month, new Date().getDate());
-      year = date.getFullYear();
-      month = date.getMonth();
-  
-      renderCalendar();
-    });
-  });
-  
-  renderCalendar();
+
+      for (let i = 1; i <= endDate; i++) {
+          let className = i === this.date.getDate() &&
+              this.month === new Date().getMonth() &&
+              this.year === new Date().getFullYear() ?
+              ' class="today"' : "";
+          datesHtml += `<li${className}>${i}</li>`;
+      }
+
+      for (let i = end; i < 6; i++) {
+          datesHtml += `<li class="inactive">${i - end + 1}</li>`;
+      }
+
+      this.dates.innerHTML = datesHtml;
+      this.header.textContent = `${this.months[this.month]} ${this.year}`;
+  }
+
+  prevMonth() {
+      this.month = this.month === 0 ? 11 : this.month - 1;
+      this.year = this.month === 11 ? this.year - 1 : this.year;
+      this.renderCalendar();
+  }
+
+  nextMonth() {
+      this.month = this.month === 11 ? 0 : this.month + 1;
+      this.year = this.month === 0 ? this.year + 1 : this.year;
+      this.renderCalendar();
+  }
+}
+
+const calendar = new Calendar("js--header", "js--dates", "js--prev", "js--next");
